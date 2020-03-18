@@ -5,12 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import org.apache.log4j.Logger;
 import ua.lviv.ConnectionUtil;
 import ua.lviv.enteties.Product;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDao implements CRUD<Product> {
+
+    private static final Logger LOG = Logger.getLogger(ProductDao.class);
 
     private static String READ_ALL = "select * from product";
     private static String CREATE = "insert into product(`name`, `description`, `price`) values (?,?,?)";
@@ -27,6 +32,9 @@ public class ProductDao implements CRUD<Product> {
 
     @Override
     public Product create(Product product) {
+        String message = String.format("Will create a product for  productId=%d",
+                product.getId());
+        LOG.debug(message);
         try {
             preparedStatement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, product.getName());
@@ -37,27 +45,32 @@ public class ProductDao implements CRUD<Product> {
             ResultSet rs = preparedStatement.getGeneratedKeys();
             rs.next();
             product.setId(rs.getInt(1));
+            return product;
         } catch (SQLException e) {
-            e.printStackTrace();
+            String errorMessage = String.format("Fail to create a product for productId=%d",
+                    product.getId());
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(e);
         }
-
-        return product;
     }
 
     @Override
     public Product read(int id) {
-        Product product = null;
+
         try {
+            Product product = null;
             preparedStatement = connection.prepareStatement(READ_BY_ID);
             preparedStatement.setInt(1, id);
+
             ResultSet result = preparedStatement.executeQuery();
             result.next();
             product = Product.of(result);
+            return product;
         } catch (SQLException e) {
-            e.printStackTrace();
+            String errorMessage = String.format("Fail to get a product with id=%d", id);
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(e);
         }
-
-        return product;
     }
 
     @Override
@@ -71,7 +84,9 @@ public class ProductDao implements CRUD<Product> {
             preparedStatement.setInt(4, product.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            String errorMessage = String.format("Fail to update a product with id=%d", product.getId());
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -82,7 +97,8 @@ public class ProductDao implements CRUD<Product> {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Failed to delete product by id " + id, e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -96,10 +112,10 @@ public class ProductDao implements CRUD<Product> {
                 productRecords.add(Product.of(result));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Failed to get list of products", e);
+            throw new RuntimeException(e);
         }
 
         return productRecords;
     }
-
 }
