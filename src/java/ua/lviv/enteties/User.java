@@ -21,6 +21,14 @@ public class User {
         this.role = role;
         this.password = password;
     }
+    // ToDo replace with builder pattern
+    public User(String email, String firstName, String lastName, String role, String password) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.password = password;
+    }
 
     public int getId() {
         return id;

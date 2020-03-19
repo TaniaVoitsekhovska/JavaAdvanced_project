@@ -17,10 +17,11 @@ public class UserDao implements CRUD<User> {
 
     public static final String SELECT_ALL = "SELECT * FROM users";
     public static final String DELETE = "DELETE FROM users where id = ?";
-    public static final String UPDATE = "UPDATE users SET email = ?, first_name = ?, last_name = ?, role = ? where id = ?";
+    public static final String UPDATE = "UPDATE users SET email = ?, first_name = ?, last_name = ?, " +
+            "role = ?,password = ? where id = ?";
     public static final String SELECT_BY_ID = "SELECT * FROM users where id = ?";
     public static final String INSERT_INTO =
-            "INSERT INTO users(email, first_name, last_name, role) values(?, ?, ?, ?)";
+            "INSERT INTO users(email, first_name, last_name, role,password) values(?, ?, ?, ?, ?)";
     public static final String SELECT_BY_EMAIL = "SELECT * FROM users where email = ?";
 
     private Connection connection;
@@ -39,6 +40,7 @@ public class UserDao implements CRUD<User> {
             preparedStatement.setString(2, user.getFirstName());
             preparedStatement.setString(3, user.getLastName());
             preparedStatement.setObject(4, user.getRole());
+            preparedStatement.setObject(5, user.getPassword());
             preparedStatement.executeUpdate();
 
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
@@ -106,7 +108,8 @@ public class UserDao implements CRUD<User> {
             preparedStatement.setObject(2, user.getFirstName());
             preparedStatement.setObject(3, user.getLastName());
             preparedStatement.setObject(4, user.getRole());
-            preparedStatement.setObject(5, user.getId());
+            preparedStatement.setObject(5, user.getPassword());
+            preparedStatement.setObject(6, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             String errorMessage = String.format("Error while updating user id=%d", user.getId());
@@ -114,12 +117,13 @@ public class UserDao implements CRUD<User> {
             throw new RuntimeException(e);
         }
     }
+
     public Optional<User> getByEmail(String email) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_EMAIL);
             preparedStatement.setObject(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 return Optional.of(User.of(resultSet));
             }
             return Optional.empty();
