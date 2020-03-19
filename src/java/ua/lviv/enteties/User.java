@@ -10,13 +10,16 @@ public class User {
     private String firstName;
     private String lastName;
     private String role;
+    private String password;
 
-    public User(int id, String email, String firstName, String lastName, String role) {
+
+    public User(int id, String email, String firstName, String lastName, String role, String password) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+        this.password = password;
     }
 
     public int getId() {
@@ -59,6 +62,14 @@ public class User {
         this.role = role;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public static User of(ResultSet resultSet) {
         try {
             int id = resultSet.getInt("id");
@@ -66,7 +77,8 @@ public class User {
             String firstName = resultSet.getString("first_name");
             String lastName = resultSet.getString("last_name");
             String role = resultSet.getString("role");
-            return new User(id, email, firstName, lastName, role);
+            String password = resultSet.getString("password");
+            return new User(id, email, firstName, lastName, role, password);
         } catch (SQLException e) {
             throw new RuntimeException("Error");
         }
@@ -81,12 +93,13 @@ public class User {
                 Objects.equals(email, user.email) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
-                Objects.equals(role, user.role);
+                Objects.equals(role, user.role)&&
+                Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, firstName, lastName, role);
+        return Objects.hash(id, email, firstName, lastName, role,password);
     }
 
     @Override
@@ -97,6 +110,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", role='" + role + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }
