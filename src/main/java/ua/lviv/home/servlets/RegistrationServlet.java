@@ -27,11 +27,11 @@ public class RegistrationServlet extends HttpServlet {
         //Todo create Session
 
         if (ObjectUtils.allNotNull(firstName, lastName, email, password)) {
-            userService.create(new User(firstName, lastName, email, UserRole.USER.toString(), password));
-            request.setAttribute("userEmail", email);
-            request.getRequestDispatcher("cabinet.jsp").forward(request, response);
+            userService.create(new User(email, firstName, lastName, UserRole.USER.toString(), password));
+            response.setStatus(HttpServletResponse.SC_CREATED);
+            return;
         }
-
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        response.setContentType("text/plain");
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
     }
 }
