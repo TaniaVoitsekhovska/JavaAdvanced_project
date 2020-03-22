@@ -2,3 +2,5 @@
 .idea
 InternetShop.iml
 target/
+/logs/*
+/out/*

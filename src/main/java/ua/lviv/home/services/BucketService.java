@@ -1,7 +1,8 @@
-package ua.lviv.services;
+package ua.lviv.home.services;
 
-import ua.lviv.daos.BucketDao;
-import ua.lviv.enteties.Bucket;
+import ua.lviv.home.daos.BucketDao;
+import ua.lviv.home.enteties.Bucket;
+
 import java.util.List;
 
 public class BucketService {
@@ -12,15 +13,15 @@ public class BucketService {
     }
 
     public Bucket create(Bucket t) {
-        return bucketDao.create(t);
+        return bucketDao.insert(t);
     }
 
     public Bucket read(int id) {
         return bucketDao.read(id);
     }
 
-    public void update(Bucket t) {
-        bucketDao.update(t);
+    public void update(Bucket t, int id) {
+        bucketDao.update(t, id);
     }
 
     public void delete(Integer id) {

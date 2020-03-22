@@ -1,7 +1,8 @@
-package ua.lviv.services;
+package ua.lviv.home.services;
 
-import ua.lviv.daos.UserDao;
-import ua.lviv.enteties.User;
+import ua.lviv.home.daos.UserDao;
+import ua.lviv.home.enteties.User;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -22,15 +23,15 @@ public class UserService {
     }
 
     public User create(User t) {
-        return userDao.create(t);
+        return userDao.insert(t);
     }
 
     public User read(int id) {
         return userDao.read(id);
     }
 
-    public void update(User t) {
-        userDao.update(t);
+    public void update(User t, int id) {
+        userDao.update(t, id);
     }
 
     public void delete(Integer id) {

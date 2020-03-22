@@ -1,16 +1,18 @@
-package ua.lviv.servlets;
+package ua.lviv.home.servlets;
 
 import org.apache.commons.lang3.ObjectUtils;
-import ua.lviv.enteties.User;
-import ua.lviv.enteties.UserRole;
-import ua.lviv.services.UserService;
+import ua.lviv.home.enteties.User;
+import ua.lviv.home.enteties.UserRole;
+import ua.lviv.home.services.UserService;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
     private UserService userService = UserService.getInstance();
 

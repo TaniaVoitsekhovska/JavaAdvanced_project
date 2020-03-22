@@ -1,15 +1,12 @@
-package ua.lviv.daos;
+package ua.lviv.home.daos;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.log4j.Logger;
-import ua.lviv.enteties.Bucket;
+import ua.lviv.home.ConnectionUtil;
+import ua.lviv.home.enteties.Bucket;
 
 import java.sql.*;
-
-import ua.lviv.ConnectionUtil;
-
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 
 public class BucketDao implements CRUD<Bucket> {
@@ -29,7 +26,7 @@ public class BucketDao implements CRUD<Bucket> {
     }
 
     @Override
-    public Bucket create(Bucket bucket) {
+    public Bucket insert(Bucket bucket) {
         String message = String.format("Will create a bucket for userId=%d and productId=%d",
                 bucket.getUserId(), bucket.getProductId());
         LOG.debug(message);
@@ -72,7 +69,7 @@ public class BucketDao implements CRUD<Bucket> {
     }
 
     @Override
-    public void update(Bucket t) {
+    public void update(Bucket t, int id) {
         throw new NotImplementedException("there is no update method for bucket");
     }
 

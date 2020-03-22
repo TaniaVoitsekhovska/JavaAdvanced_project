@@ -1,4 +1,4 @@
-package ua.lviv.daos;
+package ua.lviv.home.daos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.apache.log4j.Logger;
-import ua.lviv.ConnectionUtil;
-import ua.lviv.enteties.Product;
+import ua.lviv.home.ConnectionUtil;
+import ua.lviv.home.enteties.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class ProductDao implements CRUD<Product> {
     }
 
     @Override
-    public Product create(Product product) {
+    public Product insert(Product product) {
         String message = String.format("Will create a product for  productId=%d",
                 product.getId());
         LOG.debug(message);
@@ -74,9 +74,10 @@ public class ProductDao implements CRUD<Product> {
     }
 
     @Override
-    public void update(Product product) {
+    public void update(Product product, int id) {
 
         try {
+            product.setId(id);
             preparedStatement = connection.prepareStatement(UPDATE_BY_ID);
             preparedStatement.setString(1, product.getName());
             preparedStatement.setString(2, product.getDescription());

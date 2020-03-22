@@ -1,12 +1,10 @@
-package ua.lviv.daos;
+package ua.lviv.home.daos;
 
 import org.apache.log4j.Logger;
-import ua.lviv.enteties.User;
+import ua.lviv.home.ConnectionUtil;
+import ua.lviv.home.enteties.User;
 
 import java.sql.*;
-
-import ua.lviv.ConnectionUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +19,7 @@ public class UserDao implements CRUD<User> {
             "role = ?,password = ? where id = ?";
     public static final String SELECT_BY_ID = "SELECT * FROM users where id = ?";
     public static final String INSERT_INTO =
-            "INSERT INTO users(email, first_name, last_name, role,password) values(?, ?, ?, ?, ?)";
+            "INSERT INTO users(email, first_name, last_name, role, password) values(?, ?, ?, ?, ?)";
     public static final String SELECT_BY_EMAIL = "SELECT * FROM users where email = ?";
 
     private Connection connection;
@@ -31,7 +29,7 @@ public class UserDao implements CRUD<User> {
     }
 
     @Override
-    public User create(User user) {
+    public User insert(User user) {
         String message = String.format("Will create a user for  userId=%d", user.getId());
         LOG.debug(message);
         try {
@@ -80,11 +78,11 @@ public class UserDao implements CRUD<User> {
             while (resultSet.next()) {
                 users.add(User.of(resultSet));
             }
+            return users;
         } catch (SQLException e) {
             LOG.error("Error while getting all users", e);
             throw new RuntimeException(e);
         }
-        return users;
     }
 
     @Override
@@ -96,13 +94,13 @@ public class UserDao implements CRUD<User> {
         } catch (SQLException e) {
             String errorMessage = String.format("Error while deleting user by id=%d", id);
             LOG.error(errorMessage, e);
-            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void update(User user) {
+    public void update(User user, int id) {
         try {
+            user.setId(id);
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE);
             preparedStatement.setObject(1, user.getEmail());
             preparedStatement.setObject(2, user.getFirstName());
@@ -111,10 +109,10 @@ public class UserDao implements CRUD<User> {
             preparedStatement.setObject(5, user.getPassword());
             preparedStatement.setObject(6, user.getId());
             preparedStatement.executeUpdate();
+            LOG.info(String.format(""));
         } catch (SQLException e) {
             String errorMessage = String.format("Error while updating user id=%d", user.getId());
             LOG.error(errorMessage, e);
-            throw new RuntimeException(e);
         }
     }
 
@@ -126,9 +124,11 @@ public class UserDao implements CRUD<User> {
             if (resultSet.next()) {
                 return Optional.of(User.of(resultSet));
             }
-            return Optional.empty();
         } catch (SQLException e) {
-            throw new RuntimeException("Error while getting user by email= " + email);
+            String errorMessage = String.format("Error while getting user by email=%s", email);
+            LOG.error(errorMessage, e);
         }
+        return Optional.empty();
     }
+
 }

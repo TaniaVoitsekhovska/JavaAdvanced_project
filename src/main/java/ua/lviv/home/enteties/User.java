@@ -1,4 +1,4 @@
-package ua.lviv.enteties;
+package ua.lviv.home.enteties;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
