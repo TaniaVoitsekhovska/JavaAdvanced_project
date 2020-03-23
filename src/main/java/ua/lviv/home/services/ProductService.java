@@ -6,20 +6,21 @@ import ua.lviv.home.enteties.Product;
 import java.util.List;
 
 public class ProductService {
+    private static ProductService productService;
     private ProductDao productDao;
 
     public ProductService() {
         productDao = new ProductDao();
     }
+    public static ProductService getInstance() {
+        if (productService == null) {
+            productService = new ProductService();
+        }
+        return productService;
+    }
 
-    public void insert(String name, String description, double price){
-         productDao.insert(
-                Product.builder()
-                        .setName(name)
-                        .setDescription(description)
-                        .setPrice(price)
-                        .build()
-        );
+    public Product create(Product t) {
+        return productDao.insert(t);
     }
 
     public Product read(int id) {

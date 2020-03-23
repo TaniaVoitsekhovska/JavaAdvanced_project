@@ -1,7 +1,6 @@
 package ua.lviv.home.servlets;
 
 import org.apache.commons.lang3.ObjectUtils;
-import ua.lviv.home.enteties.UserRole;
 import ua.lviv.home.services.UserService;
 
 import javax.servlet.ServletException;
@@ -27,7 +26,7 @@ public class RegistrationServlet extends HttpServlet {
 
         if (ObjectUtils.allNotNull(firstName, lastName, email, password)) {
             if (!userService.getByEmail(email).isPresent()){
-                userService.insert(email, firstName, lastName, UserRole.USER.toString(), password);
+                userService.insert(email, firstName, lastName, password);
                 response.setStatus(HttpServletResponse.SC_CREATED);
                 return;
             }

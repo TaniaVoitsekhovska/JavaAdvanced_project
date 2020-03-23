@@ -22,7 +22,7 @@ public class UserService {
         return userService;
     }
 
-    public void insert(String s, String email, String firstName, String lastName, String password) {
+    public void insert(String email, String firstName, String lastName, String password) {
         userDao.insert(
                 User.builder()
                         .setEmail(email)
@@ -50,5 +50,9 @@ public class UserService {
 
     public Optional<User> getByEmail(String email) {
         return userDao.getByEmail(email);
+    }
+
+    public Optional<User> getByEmailAndPassword(String email, String password) {
+        return userDao.getByEmail(email).filter(user -> user.getPassword().equals(password));
     }
 }
