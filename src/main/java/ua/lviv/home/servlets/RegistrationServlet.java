@@ -1,7 +1,6 @@
 package ua.lviv.home.servlets;
 
 import org.apache.commons.lang3.ObjectUtils;
-import ua.lviv.home.enteties.User;
 import ua.lviv.home.enteties.UserRole;
 import ua.lviv.home.services.UserService;
 
@@ -27,9 +26,11 @@ public class RegistrationServlet extends HttpServlet {
         //Todo create Session
 
         if (ObjectUtils.allNotNull(firstName, lastName, email, password)) {
-            userService.create(new User(email, firstName, lastName, UserRole.USER.toString(), password));
-            response.setStatus(HttpServletResponse.SC_CREATED);
-            return;
+            if (!userService.getByEmail(email).isPresent()){
+                userService.insert(email, firstName, lastName, UserRole.USER.toString(), password);
+                response.setStatus(HttpServletResponse.SC_CREATED);
+                return;
+            }
         }
         response.setContentType("text/plain");
         response.sendError(HttpServletResponse.SC_BAD_REQUEST);

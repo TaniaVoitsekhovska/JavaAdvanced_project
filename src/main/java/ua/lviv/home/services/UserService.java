@@ -22,8 +22,14 @@ public class UserService {
         return userService;
     }
 
-    public User create(User t) {
-        return userDao.insert(t);
+    public void insert(String s, String email, String firstName, String lastName, String password) {
+        userDao.insert(
+                User.builder()
+                        .setEmail(email)
+                        .setFirstName(firstName)
+                        .setLastName(lastName)
+                        .setPassword(password)
+                        .build());
     }
 
     public User read(int id) {
