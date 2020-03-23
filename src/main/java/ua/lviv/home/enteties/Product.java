@@ -9,17 +9,45 @@ public class Product {
     private String description;
     private Double price;
 
-    public Product(Integer id, String name, String description, Double price) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
+    public static Builder builder(){
+        return new Builder();
     }
 
-    public Product(String name, String description, Double price) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
+    public static class Builder {
+        private int id;
+        private String name;
+        private String description;
+        private double price;
+
+        public Builder setId(int id){
+            this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name){
+            this.name = name;
+            return this;
+        }
+
+        public Builder setDescription(String description){
+            this.description = description;
+            return this;
+        }
+
+        public Builder setPrice(double price){
+            this.price = price;
+            return this;
+        }
+
+        public Product build(){
+            Product product = new Product();
+            product.setId(id);
+            product.setName(name);
+            product.setDescription(description);
+            product.setPrice(price);
+
+            return product;
+        }
     }
 
     public Integer getId() {
@@ -60,7 +88,12 @@ public class Product {
             String name = result.getString("name");
             String description = result.getString("description");
             Double purchasePrice = result.getDouble("price");
-            return new Product(productId, name, description, purchasePrice);
+            return Product.builder()
+                    .setId(productId)
+                    .setName(name)
+                    .setDescription(description)
+                    .setPrice(purchasePrice)
+                    .build();
         } catch (SQLException e) {
             throw new RuntimeException("Error");
         }
