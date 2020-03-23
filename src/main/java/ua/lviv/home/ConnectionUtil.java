@@ -1,10 +1,14 @@
-package ua.lviv;
+package ua.lviv.home;
+
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionUtil {
+    private static final Logger LOG = Logger.getLogger(ua.lviv.home.ConnectionUtil.class);
+
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/iShop";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
@@ -14,10 +18,10 @@ public class ConnectionUtil {
             Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Can't connect to DB",e);
             throw new RuntimeException("Can't connect to DB");
         }catch (ClassNotFoundException e) {
-            System.out.println("Database connection creation failed!" + e);
+         //   LOG.error("Database connection creation failed!",e);
             throw new RuntimeException(e);
         }
     }

@@ -1,14 +1,18 @@
-package ua.lviv.daos;
+package ua.lviv.home.daos;
 
-import ua.lviv.enteties.Bucket;
+import org.apache.commons.lang3.NotImplementedException;
+import org.apache.log4j.Logger;
+import ua.lviv.home.ConnectionUtil;
+import ua.lviv.home.enteties.Bucket;
 
 import java.sql.*;
-import ua.lviv.ConnectionUtil;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 
 public class BucketDao implements CRUD<Bucket> {
+
+    private static final Logger LOG = Logger.getLogger(BucketDao.class);
+
     private static String READ_ALL = "select * from bucket";
     private static String CREATE = "insert into bucket(`user_id`, `product_id`, `purchase_date`) values (?,?,?)";
     private static String READ_BY_ID = "select * from bucket where id =?";
@@ -22,7 +26,10 @@ public class BucketDao implements CRUD<Bucket> {
     }
 
     @Override
-    public Bucket create(Bucket bucket) {
+    public Bucket insert(Bucket bucket) {
+        String message = String.format("Will create a bucket for userId=%d and productId=%d",
+                bucket.getUserId(), bucket.getProductId());
+        LOG.debug(message);
 
         try {
             preparedStatement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
@@ -34,34 +41,36 @@ public class BucketDao implements CRUD<Bucket> {
             ResultSet rs = preparedStatement.getGeneratedKeys();
             rs.next();
             bucket.setId(rs.getInt(1));
+            return bucket;
         } catch (SQLException e) {
-            e.printStackTrace();
+            String errorMessage = String.format("Fail to create a bucket for userId=%d and productId=%d",
+                    bucket.getUserId(), bucket.getProductId());
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(e);
         }
-
-        return bucket;
     }
 
     @Override
     public Bucket read(int id) {
-        Bucket bucket = null;
         try {
+            Bucket bucket = null;
             preparedStatement = connection.prepareStatement(READ_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet result = preparedStatement.executeQuery();
             result.next();
 
             bucket = Bucket.of(result);
-
+            return bucket;
         } catch (SQLException e) {
-            e.printStackTrace();
+            String errorMessage = String.format("Fail to get a bucket with id=%d", id);
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(e);
         }
-
-        return bucket;
     }
 
     @Override
-    public void update(Bucket t) {
-        throw new IllegalStateException("there is no update for bucket");
+    public void update(Bucket t, int id) {
+        throw new NotImplementedException("there is no update method for bucket");
     }
 
     @Override
@@ -71,7 +80,8 @@ public class BucketDao implements CRUD<Bucket> {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Failed to delete bucket by id " + id, e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -86,7 +96,8 @@ public class BucketDao implements CRUD<Bucket> {
                 bucketRecords.add(Bucket.of(result));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Failed to get list of buckets", e);
+            throw new RuntimeException(e);
         }
 
         return bucketRecords;

@@ -16,7 +16,8 @@ CREATE TABLE products(
 	description VARCHAR(45) NOT NULL,
     price DECIMAL(5,2) not null
 );
-
+ALTER TABLE `ishop`.`users`
+ADD COLUMN `password` VARCHAR(45) NOT NULL AFTER `role`;
 CREATE TABLE buckets(
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_id int NOT NULL,
@@ -25,3 +26,5 @@ CREATE TABLE buckets(
     foreign key (user_id) REFERENCES users(id),
     foreign key (product_id) REFERENCES products(id)
 );
+ALTER TABLE `ishop`.`users`
+ADD COLUMN `password` VARCHAR(45) NOT NULL AFTER `role`;

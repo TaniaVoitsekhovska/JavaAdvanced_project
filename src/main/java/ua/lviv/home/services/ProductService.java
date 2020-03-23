@@ -1,7 +1,8 @@
-package ua.lviv.services;
+package ua.lviv.home.services;
 
-import ua.lviv.daos.ProductDao;
-import ua.lviv.enteties.Product;
+import ua.lviv.home.daos.ProductDao;
+import ua.lviv.home.enteties.Product;
+
 import java.util.List;
 
 public class ProductService {
@@ -12,15 +13,15 @@ public class ProductService {
     }
 
     public Product create(Product t) {
-        return productDao.create(t);
+        return productDao.insert(t);
     }
 
     public Product read(int id) {
         return productDao.read(id);
     }
 
-    public void update(Product t) {
-        productDao.update(t);
+    public void update(Product t, int id) {
+        productDao.update(t, id);
     }
 
     public void delete(Integer id) {
