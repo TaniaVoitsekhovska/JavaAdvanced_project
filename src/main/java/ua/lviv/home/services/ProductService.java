@@ -12,8 +12,14 @@ public class ProductService {
         productDao = new ProductDao();
     }
 
-    public Product create(Product t) {
-        return productDao.insert(t);
+    public void insert(String name, String description, double price){
+         productDao.insert(
+                Product.builder()
+                        .setName(name)
+                        .setDescription(description)
+                        .setPrice(price)
+                        .build()
+        );
     }
 
     public Product read(int id) {
