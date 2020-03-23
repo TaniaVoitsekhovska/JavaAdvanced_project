@@ -12,7 +12,7 @@
 
     <appender name="fileAppender" class="org.apache.log4j.FileAppender">
         <!--		Replace with your path -->
-        <param name="file" value="\Users\Byby\IdeaProjects\JavaAdvanced_project\JavaAdvanced_project\logs\tracer.log"/>
+        <param name="file" value="/Users/Byby/IdeaProjects/JavaAdvanced_project/JavaAdvanced_project/logs/tracer.log"/>
         <param name="threshold" value="error"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
