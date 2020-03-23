@@ -17,7 +17,7 @@ $("button.register")
             if (firstName == '' || lastName == '' || email == '' || password == '') {
                 alert("Please fill all fields...!!!!!!");
             } else if ((password.length) < 8) {
-                alert("Password should atleast 8 character in length...!!!!!!");
+                alert("Password should at least 8 character in length...!!!!!!");
             } else {
                 var userRegistration = {
                     firstName,
@@ -61,7 +61,7 @@ $("button.login").click(function (event) {
         $.post("login", userLogin)
             .done(function (data, textStatus, xhr) {
                 if (xhr.status === 200) {
-                    window.location = "http://localhost:8081/IShop/cabinet.jsp";
+                    window.location = "http://localhost:8081/iShop/cabinet.jsp";
                 } else {
                     alert("error while authorizing the user");
                 }
