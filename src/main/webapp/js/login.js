@@ -14,7 +14,7 @@ $("button.register")
             var lastName = $("form.register-form input.lastName").val();
             var email = $("form.register-form input.email").val();
             var password = $("form.register-form input.registerPass").val();
-            if (firstName == '' || lastName == '' || email == '' || password == '') {
+            if (firstName == null || lastName == null || email == null || password == null) {
                 alert("Please fill all fields...!!!!!!");
             } else if ((password.length) < 8) {
                 alert("Password should at least 8 character in length...!!!!!!");
@@ -30,7 +30,7 @@ $("button.register")
                     .done(function (data, textStatus, xhr) {
                         if (xhr.status === 201) {
                             $("form")[0].reset();
-                            $("form")[1].reset();
+                            $("form1")[1].reset();
                             loginRegisterSwitch();
                         } else {
                             alert("error while creating a user");
@@ -51,7 +51,7 @@ $("button.login").click(function (event) {
     var email = $("form.login-form input.logEmail").val();
     var password = $("form.login-form input.loginPass").val();
 
-    if (email == '' || password == '') {
+    if (email == null || password == null) {
         alert("Please fill login form!");
     } else {
         var userLogin = {
@@ -61,7 +61,7 @@ $("button.login").click(function (event) {
         $.post("login", userLogin)
             .done(function (data, textStatus, xhr) {
                 if (xhr.status === 200) {
-                    window.location = "http://localhost:8081/iShop/cabinet.jsp";
+                    window.location = "http://localhost:8081/cabinet.jsp";
                 } else {
                     alert("error while authorizing the user");
                 }
