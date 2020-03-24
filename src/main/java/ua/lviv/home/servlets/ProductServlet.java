@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import static com.mysql.cj.util.StringUtils.isNullOrEmpty;
 
-@WebServlet("/product")
+@WebServlet("/products")
 public class ProductServlet extends HttpServlet {
 
     ProductService productService = ProductService.getInstance();
