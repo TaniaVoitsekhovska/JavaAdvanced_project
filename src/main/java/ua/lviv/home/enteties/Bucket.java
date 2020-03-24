@@ -10,47 +10,19 @@ public class Bucket {
     private Integer productId;
     private Date purchaseDate;
 
-    public static Builder builder(){
-        return new Builder();
+    public Bucket(Integer id, Integer userId, Integer productId, Date purchaseDate) {
+        this.id = id;
+        this.userId = userId;
+        this.productId = productId;
+        this.purchaseDate = purchaseDate;
     }
 
-    public static class Builder {
-        private int id;
-        private int userId;
-        private int productId;
-        private Date purchaseDate;
-
-        public Builder setId(int id){
-            this.id = id;
-            return this;
-        }
-
-        public Builder setUserId(int userId){
-            this.userId = userId;
-            return this;
-        }
-
-        public Builder setProductId(int productId){
-            this.productId = productId;
-            return this;
-        }
-
-        public Builder setPurchaseDate(Date purchaseDate){
-            this.purchaseDate = purchaseDate;
-            return this;
-        }
-
-        public Bucket build(){
-            Bucket bucket = new Bucket();
-            bucket.setId(id);
-            bucket.setUserId(userId);
-            bucket.setProductId(productId);
-            bucket.setPurchaseDate(purchaseDate);
-
-            return bucket;
-        }
+    public Bucket(Integer userId, Integer productId, Date purchaseDate) {
+        super();
+        this.userId = userId;
+        this.productId = productId;
+        this.purchaseDate = purchaseDate;
     }
-
     public Integer getId() {
         return id;
     }
@@ -100,12 +72,7 @@ public class Bucket {
             Integer userId = result.getInt("user_id");
             Integer productId = result.getInt("product_id");
             Date purchaseDate = result.getDate("purchase_date");
-            return Bucket.builder()
-                    .setId(bucketId)
-                    .setUserId(userId)
-                    .setProductId(productId)
-                    .setPurchaseDate(purchaseDate)
-                    .build();
+            return new Bucket(bucketId, userId, productId, purchaseDate);
         } catch (SQLException e) {
             throw new RuntimeException("Error");
         }
