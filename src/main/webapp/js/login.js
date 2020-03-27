@@ -14,8 +14,8 @@ $("button.register")
             var lastName = $("form.register-form input.lastName").val();
             var email = $("form.register-form input.email").val();
             var password = $("form.register-form input.registerPass").val();
-            if (firstName == null || lastName == null || email == null || password == null) {
-                alert("Please fill all fields...!!!!!!");
+            if (firstName == '' || lastName == '' || email == '' || password == '') {
+    alert("Please fill all fields...!!!!!!");
             } else if ((password.length) < 8) {
                 alert("Password should at least 8 character in length...!!!!!!");
             } else {
@@ -30,7 +30,7 @@ $("button.register")
                     .done(function (data, textStatus, xhr) {
                         if (xhr.status === 201) {
                             $("form")[0].reset();
-                            $("form1")[1].reset();
+                            $("form")[1].reset();
                             loginRegisterSwitch();
                         } else {
                             alert("error while creating a user");
