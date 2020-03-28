@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="css/header.css">
 
 <div id="wrapper" class="animate">
@@ -20,7 +22,7 @@
                     <a class="nav-link add_product" href="/createProduct.jsp">Add product</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/bucket.jsp">Bucket</a>
+                    <a class="nav-link" href="/bucket.jsp">Bucket</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-md-auto d-md-flex">

@@ -16,8 +16,7 @@ CREATE TABLE products(
 	description VARCHAR(45) NOT NULL,
     price DECIMAL(5,2) not null
 );
-ALTER TABLE `ishop`.`users`
-ADD COLUMN `password` VARCHAR(45) NOT NULL AFTER `role`;
+
 CREATE TABLE buckets(
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_id int NOT NULL,
