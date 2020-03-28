@@ -6,7 +6,17 @@ import ua.lviv.home.enteties.Bucket;
 import java.util.List;
 
 public class BucketService {
+
+    private static BucketService bucketService;
+
     private BucketDao bucketDao;
+
+    public static BucketService getInstance() {
+        if (bucketService == null) {
+            bucketService = new BucketService();
+        }
+        return bucketService;
+    }
 
     public BucketService() {
         bucketDao = new BucketDao();

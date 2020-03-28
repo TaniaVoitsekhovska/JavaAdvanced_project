@@ -10,7 +10,7 @@ $("a.logout").click(function () {
 
     $.get("logout")
         .done(function (data, textStatus, xhr) {
-            window.location = window.origin + "/index.jsp";
+           window.location = window.origin + "/index.jsp";
         })
         .fail(function () {
             alert("Can't logout");

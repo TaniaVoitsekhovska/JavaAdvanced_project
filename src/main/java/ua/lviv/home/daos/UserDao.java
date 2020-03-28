@@ -123,7 +123,11 @@ public class UserDao implements CRUD<User> {
             preparedStatement.setObject(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return Optional.of(User.of(resultSet));
+                Optional<User> u = Optional.of(User.of(resultSet));
+                return u;
+            } else {
+                String errorMessage = String.format("Check user email= %s or password ", email);
+                LOG.error(errorMessage);
             }
         } catch (SQLException e) {
             String errorMessage = String.format("Error while getting user by email=%s", email);
