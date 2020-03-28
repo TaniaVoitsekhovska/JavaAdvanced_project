@@ -1,4 +1,4 @@
-package ua.lviv.home.servlets;
+package ua.lviv.home.servlets.controllers;
 
 import ua.lviv.home.enteties.Bucket;
 import ua.lviv.home.services.BucketService;
