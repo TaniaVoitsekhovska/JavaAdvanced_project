@@ -7,12 +7,15 @@ import ua.lviv.home.enteties.Product;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ProductDao implements CRUD<Product> {
 
     private static final Logger LOG = Logger.getLogger(ProductDao.class);
 
     private static String READ_ALL = "select * from products";
+    private static String READ_ALL_IN = "select * from products where id in";
     private static String CREATE = "insert into products(`name`, `description`, `price`) values (?,?,?)";
     private static String READ_BY_ID = "select * from products where id =?";
     private static String UPDATE_BY_ID = "update products set name=?, description = ?, price = ? where id = ?";
@@ -45,15 +48,14 @@ public class ProductDao implements CRUD<Product> {
             String errorMessage = String.format("Fail to create a product for productId=%d",
                     product.getId());
             LOG.error(errorMessage, e);
-            throw new RuntimeException(e);
         }
+        return product;
     }
 
     @Override
     public Product read(int id) {
-
+        Product product = null;
         try {
-            Product product = null;
             preparedStatement = connection.prepareStatement(READ_BY_ID);
             preparedStatement.setInt(1, id);
 
@@ -64,8 +66,8 @@ public class ProductDao implements CRUD<Product> {
         } catch (SQLException e) {
             String errorMessage = String.format("Fail to get a product with id=%d", id);
             LOG.error(errorMessage, e);
-            throw new RuntimeException(e);
         }
+        return product;
     }
 
     @Override
@@ -82,7 +84,6 @@ public class ProductDao implements CRUD<Product> {
         } catch (SQLException e) {
             String errorMessage = String.format("Fail to update a product with id=%d", product.getId());
             LOG.error(errorMessage, e);
-            throw new RuntimeException(e);
         }
     }
 
@@ -94,7 +95,6 @@ public class ProductDao implements CRUD<Product> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOG.error("Failed to delete product by id " + id, e);
-            throw new RuntimeException(e);
         }
     }
 
@@ -109,7 +109,27 @@ public class ProductDao implements CRUD<Product> {
             }
         } catch (SQLException e) {
             LOG.error("Failed to get list of products", e);
-            throw new RuntimeException(e);
+        }
+
+        return productRecords;
+    }
+    public List<Product> readByIds(Set<Integer> productIds) {
+        List<Product> productRecords = new ArrayList<>();
+        try {
+
+            String ids = productIds.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(","));
+
+            String query = String.format("%s (%s)", READ_ALL_IN, ids);
+            preparedStatement = connection.prepareStatement(query);
+
+            ResultSet result = preparedStatement.executeQuery();
+            while (result.next()) {
+                productRecords.add(Product.of(result));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return productRecords;
