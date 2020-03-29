@@ -37,7 +37,6 @@ public class UserDao implements CRUD<User> {
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getFirstName());
             preparedStatement.setString(3, user.getLastName());
-            user.setRole("USER");
             preparedStatement.setObject(4, user.getRole());
             preparedStatement.setObject(5, user.getPassword());
             preparedStatement.executeUpdate();
@@ -110,7 +109,6 @@ public class UserDao implements CRUD<User> {
             preparedStatement.setObject(5, user.getPassword());
             preparedStatement.setObject(6, user.getId());
             preparedStatement.executeUpdate();
-            LOG.info(String.format(""));
         } catch (SQLException e) {
             String errorMessage = String.format("Error while updating user id=%d", user.getId());
             LOG.error(errorMessage, e);

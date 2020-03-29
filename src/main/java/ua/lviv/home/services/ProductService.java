@@ -4,6 +4,7 @@ import ua.lviv.home.daos.ProductDao;
 import ua.lviv.home.enteties.Product;
 
 import java.util.List;
+import java.util.Set;
 
 public class ProductService {
     private static ProductService productService;
@@ -12,6 +13,7 @@ public class ProductService {
     public ProductService() {
         productDao = new ProductDao();
     }
+
     public static ProductService getInstance() {
         if (productService == null) {
             productService = new ProductService();
@@ -37,5 +39,9 @@ public class ProductService {
 
     public List<Product> readAll() {
         return productDao.readAll();
+    }
+
+    public List<Product> readByIds(Set<Integer> productIds) {
+        return productDao.readByIds(productIds);
     }
 }

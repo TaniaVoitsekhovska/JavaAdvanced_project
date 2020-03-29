@@ -41,4 +41,8 @@ public class BucketService {
     public List<Bucket> readAll() {
         return bucketDao.readAll();
     }
+
+    public List<Bucket> readAllByUserId(int userId) {
+        return bucketDao.readAllByUserId(userId);
+    }
 }

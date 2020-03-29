@@ -61,7 +61,7 @@ $("button.login").click(function (event) {
         $.post("login", userLogin)
             .done(function (data, textStatus, xhr) {
                 if (xhr.status === 200) {
-                    window.location = "http://localhost:8081/cabinet.jsp";
+                    window.location = window.origin + "/ishop/cabinet";
                 } else {
                     alert("error while authorizing the user");
                 }

@@ -13,10 +13,11 @@ public class BucketDao implements CRUD<Bucket> {
 
     private static final Logger LOG = Logger.getLogger(BucketDao.class);
 
-    private static String READ_ALL = "select * from bucket";
-    private static String CREATE = "insert into bucket(`user_id`, `product_id`, `purchase_date`) values (?,?,?)";
-    private static String READ_BY_ID = "select * from bucket where id =?";
-    private static String DELETE_BY_ID = "delete from bucket where id=?";
+    private static String READ_ALL = "select * from buckets";
+    private static String READ_ALL_BY_USER_ID = "select * from buckets where user_id = ?";
+    private static String CREATE = "insert into buckets(`user_id`, `product_id`, `purchase_date`) values (?,?,?)";
+    private static String READ_BY_ID = "select * from buckets where id =?";
+    private static String DELETE_BY_ID = "delete from buckets where id=?";
 
     private Connection connection;
     private PreparedStatement preparedStatement;
@@ -46,14 +47,14 @@ public class BucketDao implements CRUD<Bucket> {
             String errorMessage = String.format("Fail to create a bucket for userId=%d and productId=%d",
                     bucket.getUserId(), bucket.getProductId());
             LOG.error(errorMessage, e);
-            throw new RuntimeException(e);
         }
+        return bucket;
     }
 
     @Override
     public Bucket read(int id) {
+        Bucket bucket = null;
         try {
-            Bucket bucket = null;
             preparedStatement = connection.prepareStatement(READ_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet result = preparedStatement.executeQuery();
@@ -64,8 +65,8 @@ public class BucketDao implements CRUD<Bucket> {
         } catch (SQLException e) {
             String errorMessage = String.format("Fail to get a bucket with id=%d", id);
             LOG.error(errorMessage, e);
-            throw new RuntimeException(e);
         }
+        return bucket;
     }
 
     @Override
@@ -81,7 +82,6 @@ public class BucketDao implements CRUD<Bucket> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOG.error("Failed to delete bucket by id " + id, e);
-            throw new RuntimeException(e);
         }
     }
 
@@ -97,7 +97,22 @@ public class BucketDao implements CRUD<Bucket> {
             }
         } catch (SQLException e) {
             LOG.error("Failed to get list of buckets", e);
-            throw new RuntimeException(e);
+        }
+
+        return bucketRecords;
+    }
+    public List<Bucket> readAllByUserId(int userId) {
+
+        List<Bucket> bucketRecords = new ArrayList<>();
+        try {
+            preparedStatement = connection.prepareStatement(READ_ALL_BY_USER_ID);
+            preparedStatement.setInt(1, userId);
+            ResultSet result = preparedStatement.executeQuery();
+            while (result.next()) {
+                bucketRecords.add(Bucket.of(result));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return bucketRecords;

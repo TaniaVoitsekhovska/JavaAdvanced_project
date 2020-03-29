@@ -1,4 +1,4 @@
-package ua.lviv.home.servlets;
+package ua.lviv.home.servlets.controllers;
 
 import com.google.gson.Gson;
 import ua.lviv.home.enteties.Product;
