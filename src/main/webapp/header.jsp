@@ -5,7 +5,7 @@
 <div id="wrapper" class="animate">
     <nav class="navbar header-top fixed-top navbar-expand-lg  navbar-dark bg-dark">
         <span class="navbar-toggler-icon leftmenutrigger"></span>
-        <a class="navbar-brand" href="/iShop">iShop</a>
+        <a class="navbar-brand" href="/ishop">iShop</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
                 aria-controls="navbarText"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -14,15 +14,15 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav animate side-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/cabinet.jsp">Home
+                    <a class="nav-link" href="cabinet">Home
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link add_product" href="/createProduct.jsp">Add product</a>
+                    <a class="nav-link add_product" href="create-product">Add product</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/bucket.jsp">Bucket</a>
+                    <a class="nav-link" href="bucket">Bucket</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-md-auto d-md-flex">

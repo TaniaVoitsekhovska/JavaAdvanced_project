@@ -12,6 +12,8 @@ public class User {
     private String role;
     private String password;
 
+    public User() {
+    }
 
     public static Builder builder() {
         return new Builder();
@@ -101,11 +103,15 @@ public class User {
     }
 
     public String getRole() {
-        return role;
+        return this.role;
     }
 
     public void setRole(String role) {
-        this.role = role;
+        if (role == null) {
+            this.role = UserRole.USER.name();
+        } else {
+            this.role = role;
+        }
     }
 
     public String getPassword() {
@@ -146,13 +152,13 @@ public class User {
                 Objects.equals(email, user.email) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
-                Objects.equals(role, user.role)&&
+                Objects.equals(role, user.role) &&
                 Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, firstName, lastName, role,password);
+        return Objects.hash(id, email, firstName, lastName, role, password);
     }
 
     @Override

@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/create-product")
-public class CreateProduct extends HttpServlet {
+public class CreateProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("createProduct.jsp").forward(request, response);
+        request.getRequestDispatcher("/createProduct.jsp").forward(request, response);
     }
 }

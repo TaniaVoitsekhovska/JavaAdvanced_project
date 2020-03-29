@@ -30,8 +30,8 @@ public class ProductDao implements CRUD<Product> {
 
     @Override
     public Product insert(Product product) {
-        String message = String.format("Will create a product for  productId=%d",
-                product.getId());
+        String message = String.format("Will create a product with name=%s",
+                product.getName());
         LOG.debug(message);
         try {
             preparedStatement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
@@ -54,20 +54,19 @@ public class ProductDao implements CRUD<Product> {
 
     @Override
     public Product read(int id) {
-        Product product = null;
         try {
             preparedStatement = connection.prepareStatement(READ_BY_ID);
             preparedStatement.setInt(1, id);
 
             ResultSet result = preparedStatement.executeQuery();
+
             result.next();
-            product = Product.of(result);
-            return product;
+            return Product.of(result);
         } catch (SQLException e) {
             String errorMessage = String.format("Fail to get a product with id=%d", id);
             LOG.error(errorMessage, e);
+            throw new RuntimeException(e);
         }
-        return product;
     }
 
     @Override
@@ -113,6 +112,7 @@ public class ProductDao implements CRUD<Product> {
 
         return productRecords;
     }
+
     public List<Product> readByIds(Set<Integer> productIds) {
         List<Product> productRecords = new ArrayList<>();
         try {

@@ -14,6 +14,6 @@ public class BucketServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
-        request.getRequestDispatcher("bucket.jsp").forward(request, response);
+        request.getRequestDispatcher("/bucket.jsp").forward(request, response);
     }
 }

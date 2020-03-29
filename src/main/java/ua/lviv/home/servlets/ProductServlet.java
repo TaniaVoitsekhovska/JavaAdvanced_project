@@ -16,7 +16,7 @@ public class ProductServlet extends HttpServlet {
     ProductService productService = ProductService.getInstance();
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String productId = request.getParameter("id");
         Product product = productService.read(Integer.parseInt(productId));
         request.setAttribute("productName", product.getName());
@@ -25,13 +25,6 @@ public class ProductServlet extends HttpServlet {
         request.setAttribute("productId", product.getId());
 
         request.getRequestDispatcher("singleProduct.jsp").forward(request, response);
-    }
-
-    // to get resource (product)
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
     }
 
     // to update resource (product)

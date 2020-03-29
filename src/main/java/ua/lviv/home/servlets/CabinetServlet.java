@@ -14,7 +14,7 @@ public class CabinetServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
-        request.getRequestDispatcher("cabinet.jsp").forward(request, response);
+        request.getRequestDispatcher("/cabinet.jsp").forward(request, response);
     }
 
 }
